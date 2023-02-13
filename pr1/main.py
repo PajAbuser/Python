@@ -12,33 +12,16 @@ def pyshader(func, w, h):
                             for c in func(x / w, y / h)]
     return bytes('P6\n%d %d\n255\n' % (w, h), 'ascii') + scr
 
-def fact(n):
-    if n == 0:
-        return 1
-    return n * fact(n - 1)
-
-def pseudoRandom(x, y):
-    return math.sin(x * 618033988749895 % fact(int(y * 10))) + math.cos(y * 381966011250105 % fact(int(x * 10)))
-
-def noise(x, y):
-    return (math.sin(pseudoRandom(x, y) * 1000) + math.cos(pseudoRandom(x, y) * 1000))
-
-def lerp(a, b, x):
-    return a + x * (b - a)
-
-def val_noise(x, y):
-    d = 1/512
-    return lerp(noise(x - d, y - d), noise(x + d, y + d), x+y)
-
 def func(x, y):
-    #val = noise(x, y)
-    val = val_noise(x, y)
-    return val, val, val
-
+    r1 = 80/255
+    r2 = 20/255
+    circ1 = (x - 0.48)**2 + (y - 0.48)**2
+    circ2 = (x - 0.52)**2 + (y - 0.52)**2
+    return 1-(circ2)/(r1**2), 1-(circ1)/(r1**2), 0
 
 
 label = tk.Label()
-img = tk.PhotoImage(data=pyshader(func, 256, 256)).zoom(2, 2)
+img = tk.PhotoImage(data=pyshader(func, 256, 256)).zoom(3, 3)
 label.pack()
 label.config(image=img)
 tk.mainloop()

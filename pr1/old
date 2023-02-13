@@ -33,3 +33,27 @@ def noise(x,y):
     return sign * (val(x+d, y+d) + val(x-d, y-d))/d
 
 ~4.5~
+def fact(n):
+    if n == 0:
+        return 1
+    return n * fact(n - 1)
+
+def pseudoRandom(x, y):
+    return math.sin(x * 618033988749895 % fact(int(y * 10))) + math.cos(y * 381966011250105 % fact(int(x * 10)))
+
+def noise(x, y):
+    return (math.sin(pseudoRandom(x, y) * 1000) + math.cos(pseudoRandom(x, y) * 1000))
+
+def lerp(a, b, x):
+    return a + x * (b - a)
+
+def val_noise(x, y):
+    d = 1/512
+    return lerp(noise(x - d, y - d), noise(x + d, y + d), x+y)
+
+def func(x, y):
+    val = noise(x, y)
+    #val = val_noise(x, y)
+    return val, val, val
+
+~4.6~
