@@ -1,0 +1,35 @@
+~4.2~
+def func(x, y):
+    r1 = 80/256
+    r2 = 20/256
+    circ1 = (x - 0.48)**2 + (y - 0.48)**2
+    circ2 = (x - 0.52)**2 + (y - 0.52)**2
+    return 1-(circ2)/(r1**2), 1-(circ1)/(r1**2), 0
+
+~4.3~
+def func(x, y):
+    r1 = 80/256
+    r2 = 15/256
+    circ1 = (x - 0.5) ** 2 + (y - 0.5) ** 2
+    circ2 = (x - 0.6) ** 2 + (y - 0.32) ** 2
+    body = (circ1 < r1 ** 2)
+    eye = (circ2 < r2 ** 2)
+    mouth = (x > 2*y - 0.5) & (x > 1.5 - 2*y) & (x > 0.5)
+    pacman = body & ~eye & ~mouth
+    return pacman, pacman, 0
+
+~4.4~
+def f(x,y):
+    PI = math.pi
+    return math.sin(x*256) * math.cos(y*256**3) + math.sin((1-y)*256) * math.cos((1-x)*256)
+
+def val(x, y):
+    d = 1/512
+    return (f(x + d, y + d) + f(x - d, y - d))/d
+
+def noise(x,y):
+    sign = (-1) ** int(256 * (x * y)**(1/2))
+    d = 1/512
+    return sign * (val(x+d, y+d) + val(x-d, y-d))/d
+
+~4.5~
